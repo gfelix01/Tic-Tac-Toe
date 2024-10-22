@@ -27,7 +27,7 @@
 *.lib
 
 # Executables
-
+TicTacToe.exe
 *.exe
 *.out
 *.app
