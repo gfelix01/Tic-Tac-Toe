@@ -1,27 +1,28 @@
 #include <iostream>
 using namespace std;
 
-char board[3][3] = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
-char current_marker;
-int current_player;
+// Tablero de 3x3 inicializado con números del 1 al 9
+char tablero[3][3] = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
+char marcador_actual;
+int jugador_actual;
 
-void drawBoard()
+void dibujarTablero()
 {
-    cout << " " << board[0][0] << " | " << board[0][1] << " | " << board[0][2] << endl;
+    cout << " " << tablero[0][0] << " | " << tablero[0][1] << " | " << tablero[0][2] << endl;
     cout << "---|---|---\n";
-    cout << " " << board[1][0] << " | " << board[1][1] << " | " << board[1][2] << endl;
+    cout << " " << tablero[1][0] << " | " << tablero[1][1] << " | " << tablero[1][2] << endl;
     cout << "---|---|---\n";
-    cout << " " << board[2][0] << " | " << board[2][1] << " | " << board[2][2] << endl;
+    cout << " " << tablero[2][0] << " | " << tablero[2][1] << " | " << tablero[2][2] << endl;
 }
 
-bool placeMarker(int slot)
+bool colocarMarcador(int casilla)
 {
-    int row = (slot - 1) / 3;
-    int col = (slot - 1) % 3;
+    int fila = (casilla - 1) / 3;
+    int columna = (casilla - 1) % 3;
 
-    if (board[row][col] != 'X' && board[row][col] != 'O')
+    if (tablero[fila][columna] != 'X' && tablero[fila][columna] != 'O')
     {
-        board[row][col] = current_marker;
+        tablero[fila][columna] = marcador_actual;
         return true;
     }
     else
@@ -30,77 +31,77 @@ bool placeMarker(int slot)
     }
 }
 
-int checkWinner()
+int verificarGanador()
 {
-    // Check rows and columns
+    // Verificar filas y columnas
     for (int i = 0; i < 3; i++)
     {
-        if (board[i][0] == board[i][1] && board[i][1] == board[i][2])
-            return current_player;
-        if (board[0][i] == board[1][i] && board[1][i] == board[2][i])
-            return current_player;
+        if (tablero[i][0] == tablero[i][1] && tablero[i][1] == tablero[i][2])
+            return jugador_actual;
+        if (tablero[0][i] == tablero[1][i] && tablero[1][i] == tablero[2][i])
+            return jugador_actual;
     }
-    // Check diagonals
-    if (board[0][0] == board[1][1] && board[1][1] == board[2][2])
-        return current_player;
-    if (board[0][2] == board[1][1] && board[1][1] == board[2][0])
-        return current_player;
+    // Verificar diagonales
+    if (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2])
+        return jugador_actual;
+    if (tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0])
+        return jugador_actual;
 
     return 0;
 }
 
-void swapPlayer()
+void cambiarJugador()
 {
-    current_player = (current_player == 1) ? 2 : 1;
-    current_marker = (current_marker == 'X') ? 'O' : 'X';
+    jugador_actual = (jugador_actual == 1) ? 2 : 1;
+    marcador_actual = (marcador_actual == 'X') ? 'O' : 'X';
 }
 
-void game()
+void juego()
 {
-    cout << "Player 1, choose your marker: ";
-    cin >> current_marker;
-    current_player = 1;
+    cout << "Jugador 1, elige tu marcador (X o O): ";
+    cin >> marcador_actual;
+    jugador_actual = 1;
 
-    int player_won;
+    int ganador;
 
     for (int i = 0; i < 9; i++)
     {
-        drawBoard();
-        cout << "It's player " << current_player << "'s turn. Enter your slot: ";
-        int slot;
-        cin >> slot;
+        dibujarTablero();
+        cout << "Turno del jugador " << jugador_actual << ". Ingresa una casilla (1-9): ";
+        int casilla;
+        cin >> casilla;
 
-        if (slot < 1 || slot > 9 || !placeMarker(slot))
+        if (casilla < 1 || casilla > 9 || !colocarMarcador(casilla))
         {
-            cout << "Invalid slot! Try again.\n";
+            cout << "¡Casilla inválida! Intenta de nuevo.\n";
             i--;
             continue;
         }
 
-        player_won = checkWinner();
+        ganador = verificarGanador();
 
-        if (player_won == 1)
+        if (ganador == 1)
         {
-            cout << "Player 1 wins!\n";
+            cout << "¡Jugador 1 ha ganado!\n";
             break;
         }
-        else if (player_won == 2)
+        else if (ganador == 2)
         {
-            cout << "Player 2 wins!\n";
+            cout << "¡Jugador 2 ha ganado!\n";
             break;
         }
 
-        swapPlayer();
+        cambiarJugador();
     }
 
-    if (player_won == 0)
-        cout << "It's a tie!\n";
+    if (ganador == 0)
+        cout << "¡Empate!\n";
 
-    drawBoard();
+    dibujarTablero();
 }
 
 int main()
 {
-    game();
+    juego();
     return 0;
 }
