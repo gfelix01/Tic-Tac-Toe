@@ -28,6 +28,8 @@
 
 # Executables
 TicTacToe.exe
+main.exe
+main
 *.exe
 *.out
 *.app
