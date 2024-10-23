@@ -20,3 +20,8 @@
    ```bash
    git clone https://github.com/gfelix01/Tic-Tac-Toe.git
    ```
+
+### Consejos para personalizar:
+
+- Puedes agregar emojis o colores para hacerlo más atractivo.
+- Considera incluir anécdotas o frases típicas dominicanas para darle un toque más local.
